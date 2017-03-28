@@ -1,0 +1,222 @@
+body, html {
+    width: 100%;
+    height: 100%;
+}
+
+
+div#description { 
+    background-color: rgb(200,200,200);
+    height: 10%; 
+    width: 100%;  
+}
+
+div#menuBar { 
+  height: 8%;
+  width: 100%;
+}
+
+div#leftMenu {
+  width: 33.3%; 
+  height: 100%;
+  float: left;
+}  
+
+canvas[nx="select"]{
+  height: 100%;
+  width:  100%;
+  float:left;
+}
+
+div#centerMenu {
+  width: 33.3%; 
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+div#rightMenu {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  filter: alpha(opacity=90);  
+  opacity: .9;
+}
+
+div#controlsArea { /* synth parameter sliders - top 40% */
+  height: 30%;
+  width: 100%;
+  filter: alpha(opacity=90);    
+  opacity: .9;
+}
+
+div#leftDeck {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+canvas[nx="vinyl"]{
+  height: 100%;
+  width:  50%;
+}
+
+div#mixer {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee; 
+ } 
+
+canvas[nx="dial"]{
+            width: 50%;
+            height: 30%;
+            float: left;
+}   
+
+
+div#rightDeck {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+
+div#crossfaderAndButtons { /* synth parameter sliders - top 40% */
+  height: 10%;
+  width: 100%;
+}
+div#leftStart {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+
+}
+
+canvas[id="leftStartTog"]{
+  height: 100%;
+  width:  20%;
+  float:left;
+
+}
+
+canvas[id="leftDec"]{
+  height: 100%;
+  width:  20%;
+
+
+}
+
+canvas[id="leftInc"]{
+  height: 100%;
+  width:  20%;
+  float:right;
+
+}
+
+div#crossfaderDiv {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+div#rightStart {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+canvas[id="rightStartTog"]{
+  height: 100%;
+  width:  20%;
+  float:left;
+
+}
+
+canvas[id="rightDec"]{
+  height: 100%;
+  width:  20%;
+  margin-left: 22%;
+
+
+}
+
+canvas[id="rightInc"]{
+  height: 100%;
+  width:  20%;
+  float:right;
+
+}
+
+
+div#FXBar { /* synth parameter sliders - top 40% */
+  height: 20%;
+  width: 100%;
+}
+
+div#leftFX {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee; 
+ } 
+
+canvas[id="distortion1"]{
+            width: 50%;
+            height: 100%;
+            float: left;
+        
+}    
+
+div#centerFX {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+canvas[id="filter1"]{
+          width: 25%;
+          height: 100%;
+          float: left;
+          margin-left: 6%
+}  
+
+canvas[nx = "slider"]{
+          width: 10%;
+          height: 100%;
+          float: left;
+          margin-left: 6%
+}
+
+canvas[id="filter2"]{
+          width: 25%;
+          height: 100%;
+          float: left;
+          margin-left: 6%
+}  
+
+div#rightFX {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee; 
+}
+
+canvas[id="distortion2"]{
+            width: 50%;
+            height: 100%;
+            float: left;     
+}    
+
+
+
