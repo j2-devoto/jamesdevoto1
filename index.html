@@ -1,1 +1,518 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>DJ</title>
+    
+    <script src="js/Tone.js" ></script>
+    <script src="js/nexusUI.js"></script>
 
+    <link href="css/style.css" rel="stylesheet"> <!-- <style> definition from an exernal file -->
+    
+</head>
+<body>
+    <div id="description">Selecting a track from the drop down menu will drop it onto the decks
+    </div>
+ 
+
+    <div id="menuBar">
+
+        <div id="leftMenu">
+          <canvas nx="select" id="select1" choices="track1,track2,track3,track4"></canvas>
+        </div>
+        <div id="centerMenu">
+          
+        </div>
+        <div id="rightMenu">
+          <canvas nx="select" id="select2" choices="track1, track2, track3, track4"></canvas>
+        </div>
+    </div>
+
+     
+
+    <div id="controlsArea">
+
+        <div id="leftDeck">
+            <canvas nx="vinyl" id="leftVinyl"></canvas>
+        </div>
+
+        <div id="mixer">
+            <canvas nx="dial" height="25%" width="25%"></canvas>
+            <canvas nx="dial" height="25%" width="25%"></canvas>
+            <canvas nx="dial" height="25%" width="25%"></canvas>
+            <canvas nx="dial" height="25%" width="25%"></canvas>
+            <canvas nx="dial" height="25%" width="25%"></canvas>
+            <canvas nx="dial" height="25%" width="25%"></canvas>
+        </div>
+
+        <div id="rightDeck">
+            <canvas nx="vinyl" id="rightVinyl"></canvas>
+        </div>
+
+    </div>
+
+    <div id="crossfaderAndButtons">
+
+        <div id="leftStart">
+            <canvas nx="toggle" id="leftStartTog"></canvas>
+            <canvas nx="button" id="leftDec" label "inc"></canvas>
+            <canvas nx="button" id="leftInc"></canvas>
+        </div>
+
+        <div id="crossfaderDiv">
+            <input id="crossfader" type="range" min = "0" max = "100" style- "width:70%" ></input> 
+        </div>
+
+        <div id="rightStart">
+            <canvas nx="toggle" id="rightStartTog"></canvas>
+            <canvas nx="button" id="rightDec"></canvas>
+            <canvas nx="button" id="rightInc"></canvas>
+        </div>
+    </div>
+
+    <div id="FXBar">
+
+        <div id="leftFX">
+            <canvas nx ="dial" id ="distortion1" label = "distortion" height="50%" width="50%"></canvas>
+        </div>
+
+        <div id="centerFX">
+            <canvas nx ="dial" id ="filter1" label= "filter"height="50%" width="50%"></canvas>
+            <canvas nx="slider" id="slider1" label= "Lvol"></canvas>
+            <canvas nx="slider" id ="slider2" label= "Rvol"></canvas>
+            <canvas nx ="dial" id ="filter2" label= "filter"height="50%" width="50%"></canvas>
+        </div>
+
+        <div id="rightFX">
+            <canvas nx ="dial" id ="distortion2" label = "distortion" height="50%" width="50%"></canvas>
+        </div>
+
+    </div>
+
+  <script>
+
+
+
+    // load and configure the ToneJS sample player 
+    var leftplayer = new Tone.Player("Songs/Song1Logic.mp3");
+
+    var crossFade = new Tone.CrossFade(0.5);
+    
+    var LowEqL = new Tone.Filter(100, "peaking");
+    LowEqL.q = 10;
+    var MidEqL = new Tone.Filter(500, "peaking");
+    MidEqL.q = 10;
+    var HighEqL1 = new Tone.Filter(3000, "peaking");
+    MidEqL.q = 10;
+    var HighEqL2 = new Tone.Filter(7000, "peaking");
+    MidEqL.q = 10;
+    var filterL = new Tone.Filter(200, "highpass");
+    var distortionL = new Tone.Distortion(0.8);
+    distortionL.wet.value = 0.0;
+    var Lgain = new Tone.Gain (1);
+
+    Lgain.connect(crossFade, 0, 0);
+
+    leftplayer.chain(LowEqL, MidEqL, HighEqL1, HighEqL2, filterL,distortionL, Lgain);
+
+    Lgain.connect(crossFade, 0, 0);
+
+    var rightplayer = new Tone.Player("Songs/Song1Logic.mp3");
+    var LowEqR = new Tone.Filter(100, "peaking");
+    LowEqL.q = 10;
+    var MidEqR = new Tone.Filter(500, "peaking");
+    MidEqL.q = 10;
+    var HighEqR1 = new Tone.Filter(3000, "peaking");
+    MidEqL.q = 10;
+    var HighEqR2 = new Tone.Filter(7000, "peaking");
+    MidEqL.q = 10;
+    var filterR = new Tone.Filter(200, "highpass");
+    var distortionR = new Tone.Distortion(0.8);
+    distortionR.wet.value = 0.0;
+    var Rgain = new Tone.Gain (1);
+
+    rightplayer.chain(LowEqR, MidEqR, HighEqR1, HighEqR2, filterR,distortionR, Rgain);
+
+    Rgain.connect(crossFade, 0, 1);
+
+    crossFade.toMaster();
+    
+    // when the nexus UI system loads we call this function
+    nx.onload = function() 
+    {
+        dial1.colors.fill = "#222222";
+        dial2.colors.fill = "#222222";
+        dial3.colors.fill = "#222222";
+        dial4.colors.fill = "#222222";
+        dial5.colors.fill = "#222222";
+        dial6.colors.fill = "#222222";
+        distortion1.colors.fill = "#222222";
+        distortion2.colors.fill = "#222222";
+        filter1.colors.fill = "#222222";
+        filter2.colors.fill = "#222222";
+
+        dial1.min = -40;
+        dial1.max = +40;
+        dial1.val.value = 0;
+        dial1.init();
+
+        dial1.on("*", function(dialData){
+        HighEqL1.gain.value = dialData.value;
+        if(HighEqL1.gain.value > 10){
+            HighEqL1.gain.value = 10;
+        }
+        });
+
+        dial1.on("*", function(dialData){
+        HighEqL2.gain.value = dialData.value;
+        if(HighEqL2.gain.value > 10){
+            HighEqL2.gain.value = 10;
+        }
+        });
+
+
+        dial2.min = -40;
+        dial2.max = +40;
+        dial2.val.value = 0;
+        dial2.init();
+
+        dial2.on("*", function(dialData){
+        HighEqR1.gain.value = dialData.value;
+        if(HighEqR1.gain.value > 10){
+            HighEqR1.gain.value = 10;
+        }
+        });
+
+        dial2.on("*", function(dialData){
+        HighEqR2.gain.value = dialData.value;
+        if(HighEqR2.gain.value > 10){
+            HighEqR2.gain.value = 10;
+        }
+        });
+
+        dial3.min = -40;
+        dial3.max = +40;
+        dial3.val.value = 0;
+        dial3.init();
+
+        dial3.on("*", function(dialData){
+        MidEqL.gain.value = dialData.value;
+        if(MidEqL.gain.value > 15){
+            MidEqL.gain.value = 15;
+        }
+        });
+
+        dial4.min = -40;
+        dial4.max = +40;
+        dial4.val.valueq = 0;
+        dial4.init();
+
+        dial4.on("*", function(dialData){
+        MidEqR.gain.value = dialData.value;
+        if(MidEqR.gain.value > 15){
+            MidEqR.gain.value = 15;
+        }
+        });
+
+        dial5.min = -40;
+        dial5.max = +40;
+        dial5.val.value = 0;
+        dial5.init();
+
+        dial5.on("*", function(dialData){
+        LowEqL.gain.value = dialData.value;
+        if(LowEqL.gain.value > 15){
+            LowEqL.gain.value = 15;
+        }
+        });
+
+        dial6.min = -40;
+        dial6.max = +40;
+        dial6.val.value = 0;
+        dial6.init();
+
+        dial6.on("*", function(dialData){
+        LowEqR.gain.value = dialData.value;
+        if(LowEqR.gain.value > 15){
+            LowEqR.gain.value = 15;
+        }
+        });
+
+        filter1.min = 0;
+        filter1.max = 2000;
+        filter1.val.value = 0; 
+        filter1.init();
+        filter1.on("*", function(dialData){
+            filterL.frequency.value = dialData.value;
+        });
+
+        distortion1.min = 0;
+        distortion1.max = 0.5;
+        distortion1.val.value = 0.0; 
+        distortion1.init();
+        distortion1.on("*", function(dialData){
+            distortionL.wet.value = dialData.value;
+        });
+
+        filter2.min = 0;
+        filter2.max = 2000;
+        filter2.val.value = 0; 
+        filter2.init();
+        filter2.on("*", function(dialData){
+        filterR.frequency.value = dialData.value;
+        });
+
+        distortion2.min = 0;
+        distortion2.max = 0.5;
+        distortion2.val.value = 0; 
+        distortion2.init();
+        distortion2.on("*", function(dialData){
+        distortionR.wet.value = dialData.value;
+        });
+
+        slider1.on("*", volumeActions);
+        slider1.min = -60;
+        slider1.max = 0;
+        slider1.val.value = 0;
+        slider1.init();
+
+        slider2.on("*", volumeActions); 
+        slider2.min = -60;
+        slider2.max = 0;
+        slider2.val.value = 0;
+        slider2.init();   
+
+        // set default state of controls for left vinyl
+        leftVinyl.defaultspeed = 0;
+
+        // set event listener for events on the left vinyl
+        leftVinyl.on("*", LvinylActions);
+
+        // and event listener for events on the left toggle
+        leftStartTog.on("*", LtoggleActions);
+
+        // add event listener for events on the left speed inc button
+        leftInc.on("*", leftIncActions);
+
+        // add event listener for events on the left speed inc button
+        leftDec.on("*", leftDecActions);
+
+        // add event listener for events on the left speed inc button
+        rightInc.on("*", rightIncActions);
+
+        // add event listener for events on the left speed inc button
+        rightDec.on("*", rightDecActions);
+
+
+        // set default state of controls for Rvinyl
+        rightVinyl.defaultspeed = 0;
+
+        // set event listener for events on the Rvinyl control
+        rightVinyl.on("*", RvinylActions);
+
+        // and event listener for events on the Rtoggle button
+        rightStartTog.on("*", RtoggleActions);
+
+         // set event listener for events on the Lselect menu
+        select1.on("*", select1Actions);
+
+        // and event listener for events on the Rselect menu
+        select2.on("*", select2Actions);    
+        
+    }
+
+    function volumeActions() {
+        leftplayer.volume.value = slider1.val.value;
+        rightplayer.volume.value = slider2.val.value;
+    }
+
+    function select1Actions(eventData){
+
+        leftplayer.stop();
+
+        function restartPlayerL() {
+                leftplayer.start();
+                leftplayer.loop = true;     
+            }
+
+        if (select1.val.text == "track1") {
+            leftplayer.load("Songs/Song1Logic.mp3", restartPlayerL);
+            
+        }
+        else if (select1.val.text == "track2") {
+            leftplayer.load("Songs/Song2Joey.mp3", restartPlayerL);
+            
+        }
+    }
+
+
+    function select2Actions(eventData){
+
+        rightplayer.stop();
+
+        function restartPlayerR() {
+                rightplayer.start();
+                rightplayer.loop = true;     
+            }
+
+        if (select2.val.text == "track1") {
+            rightplayer.load("Songs/Song1Logic.mp3", restartPlayerR);
+            
+        }
+        else if (select2.val.text == "track2") {
+            rightplayer.load("Songs/Song2Joey.mp3", restartPlayerR);
+            
+        }
+    }
+
+    // callback for actions on the vinyl control
+    var LvinylActions = function(event) {
+
+        // are we pushing forward?
+        if (leftVinyl.val.speed > 0) {
+            leftplayer.reverse = false;
+            leftplayer.playbackRate = leftVinyl.val.speed;
+        }
+
+        // maybe pushing backwards?
+        else if (leftVinyl.val.speed < 0 ) {
+            leftplayer.reverse = true;
+
+            // playback rate must be a positive number
+            leftplayer.playbackRate = (-1 * leftVinyl.val.speed); 
+        }
+    }
+
+    //make the left vinyl un-interactable
+
+    leftVinyl.click = function(){}; 
+    leftVinyl.move = function(){};
+    leftVinyl.release = function(){};  
+    leftVinyl.touch = function(){}; 
+    leftVinyl.touchMove = function(){}; 
+    leftVinyl.touchRelease = function(){}; 
+
+
+    // callback for actions on the toggle button
+    var LtoggleActions = function(event) {
+        
+        // set the turntable to run or stop
+        // depending on the toggle button value
+                console.log(event.value);
+
+        if (event.value == 1 ){
+            leftVinyl.defaultspeed = 0.05;
+        }
+        else {
+            leftVinyl.defaultspeed = 0;
+        }
+
+        // if the sample player isn't running yet
+        if (leftplayer.state == "stopped") {
+            leftplayer.start();
+        }
+    }
+
+    // callback for actions on the increment button
+    var leftIncActions = function(event) {
+
+        // set the turntable to run or stop
+        // depending on the toggle button value
+        if (event.press == 1 ){
+            leftVinyl.speed = 0.1;
+        }
+        else {
+            leftVinyl.speed = 0.05;
+        }
+    }
+
+    // callback for actions on the toggle button
+    var leftDecActions = function(event) {
+        
+        // set the turntable to run or stop
+        // depending on the toggle button value
+        if (event.press == 1 ){
+            leftVinyl.speed = 0.04;
+        }
+        else {
+            leftVinyl.speed = 0.05;
+        }
+    }
+
+    // callback for actions on the increment button
+    var rightIncActions = function(event) {
+
+        // set the turntable to run or stop
+        // depending on the toggle button value
+        if (event.press == 1 ){
+            rightVinyl.speed = 0.1;
+        }
+        else {
+            rightVinyl.speed = 0.05;
+        }
+    }
+
+    // callback for actions on the toggle button
+    var rightDecActions = function(event) {
+        
+        // set the turntable to run or stop
+        // depending on the toggle button value
+        if (event.press == 1 ){
+            rightVinyl.speed = 0.04;
+        }
+        else {
+            rightVinyl.speed = 0.05;
+        }
+    }
+
+        // callback for actions on the vinyl control
+    var RvinylActions = function(event) {
+
+        // are we pushing forward?
+        if (rightVinyl.val.speed > 0) {
+            rightplayer.reverse = false;
+            rightplayer.playbackRate = rightVinyl.val.speed;
+        }
+
+        // maybe pushing backwards?
+        else if (rightVinyl.val.speed < 0 ) {
+            rightplayer.reverse = true;
+
+            // playback rate must be a positive number
+            rightplayer.playbackRate = (-1 * rightVinyl.val.speed); 
+        }
+    }
+
+    // callback for actions on the toggle button
+    var RtoggleActions = function(event) {
+        
+        // set the turntable to run or stop
+        // depending on the toggle button value
+        if (event.value == 1 ){
+            rightVinyl.defaultspeed = 0.05;
+        }
+        else {
+            rightVinyl.defaultspeed = 0;
+        }
+
+        // if the sample player isn't running yet
+        if (rightplayer.state == "stopped") {
+            rightplayer.start();
+        }
+    }
+
+    var crossfader = document.getElementById("crossfader");
+
+    crossfader.addEventListener("mousemove", crossfaderActions);
+
+    function crossfaderActions(event) {
+        crossFade.fade.value = crossfader.value/100.0; 
+    }
+
+
+
+
+  </script>
+  
+</body>
+
+</html>
