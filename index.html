@@ -508,6 +508,24 @@
         crossFade.fade.value = crossfader.value/100.0; 
     }
 
+    
+    // ios web audio context is muted by default
+    // workaround is to make a touchstart trigger an audio source
+    window.addEventListener('touchstart',
+      function() { 
+        // create empty buffer
+        var buffer = Tone.context.createBuffer(1, 1, 22050);
+        var source = Tone.context.createBufferSource();
+        source.buffer = buffer; 
+      
+      // connect to output (your speakers) 
+      source.connect(Tone.context.destination); 
+      
+      // play the file
+      source.noteOn(0); 
+      source.start();
+    }, false);
+ 
 
 
 
