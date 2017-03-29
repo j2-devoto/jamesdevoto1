@@ -10,6 +10,8 @@
     
 </head>
 <body>
+
+    
  
 
     <div id="menuBar">
@@ -81,7 +83,6 @@
 
         <div id="leftFX">
             <canvas nx ="dial" id ="reverb1" label = "reverb" height="50%" width="50%"></canvas>
-            <canvas nx ="dial" id ="reverbTest" label = "reverb" height="50%" width="50%"></canvas>
         </div>
 
         <div id="centerFX">
@@ -92,7 +93,7 @@
         </div>
 
         <div id="rightFX">
-            <canvas nx ="dial" id ="distortion2" label = "distortion" height="50%" width="50%"></canvas>
+            <canvas nx ="dial" id ="reverb2" label = "reverb" height="50%" width="50%"></canvas>
         </div>
 
     </div>
@@ -113,16 +114,14 @@
     MidEqL.q = 10;
     var filterL1 = new Tone.Filter(200, "highpass");
     filterL1.frequency.value = 0;
-    var filterL2 = new Tone.Filter(350, "lowpass");
-    filterL2.frequency.value = 1000;
-    var reverbtest = new Tone.Freeverb();
-    reverbtest.roomSize.value = 0.75;
-    reverbtest.dampening.value = 8000;
-    reverbtest.wet.value = 0.0;
+    var reverbL = new Tone.Freeverb();
+    reverbL.roomSize.value = 0.75;
+    reverbL.dampening.value = 8000;
+    reverbL.wet.value = 0.0;
     var Lgain = new Tone.Gain (1);
 
 
-    leftplayer.chain(LowEqL, MidEqL, HighEqL1, HighEqL2, filterL1, reverbtest, Lgain);
+    leftplayer.chain(LowEqL, MidEqL, HighEqL1, HighEqL2, filterL1, reverbL, Lgain);
 
     Lgain.connect(crossFade, 0, 0);
 
@@ -137,13 +136,13 @@
     MidEqL.q = 10;
     var filterR1 = new Tone.Filter(200, "highpass");
     filterR1.frequency.value = 0;
-    var filterR2 = new Tone.Filter(350, "lowpass");
-    filterR2.frequency.value = 1000;
-    var distortionR = new Tone.Distortion(0.8);
-    distortionR.wet.value = 0.0;
+    var reverbR = new Tone.Freeverb();
+    reverbR.roomSize.value = 0.75;
+    reverbR.dampening.value = 8000;
+    reverbR.wet.value = 0.0;
     var Rgain = new Tone.Gain (1);
 
-    rightplayer.chain(LowEqR, MidEqR, HighEqR1, HighEqR2, filterR1,distortionR, Rgain);
+    rightplayer.chain(LowEqR, MidEqR, HighEqR1, HighEqR2, filterR1,reverbR, Rgain);
 
     Rgain.connect(crossFade, 0, 1);
 
@@ -158,8 +157,10 @@
         dial4.colors.fill = "#222222";
         dial5.colors.fill = "#222222";
         dial6.colors.fill = "#222222";
-        reverb1.colors.fill ="#2222222";
-        distortion2.colors.fill = "#222222";
+        rightDec.colors.fill = "#222222";
+        rightInc.colors.fill = "#222222";
+        reverb1.colors.fill = "#222222";
+        reverb2.colors.fill = "#222222";
         filter1.colors.fill = "#222222";
         filter2.colors.fill = "#222222";
 
@@ -167,14 +168,12 @@
         dial1.max = +40;
         dial1.val.value = 0;
         dial1.init();
-
         dial1.on("*", function(dialData){
         HighEqL1.gain.value = dialData.value;
         if(HighEqL1.gain.value > 10){
             HighEqL1.gain.value = 10;
         }
         });
-
         dial1.on("*", function(dialData){
         HighEqL2.gain.value = dialData.value;
         if(HighEqL2.gain.value > 10){
@@ -182,19 +181,16 @@
         }
         });
 
-
         dial2.min = -40;
         dial2.max = +40;
         dial2.val.value = 0;
         dial2.init();
-
         dial2.on("*", function(dialData){
         HighEqR1.gain.value = dialData.value;
         if(HighEqR1.gain.value > 10){
             HighEqR1.gain.value = 10;
         }
         });
-
         dial2.on("*", function(dialData){
         HighEqR2.gain.value = dialData.value;
         if(HighEqR2.gain.value > 10){
@@ -206,7 +202,6 @@
         dial3.max = +40;
         dial3.val.value = 0;
         dial3.init();
-
         dial3.on("*", function(dialData){
         MidEqL.gain.value = dialData.value;
         if(MidEqL.gain.value > 15){
@@ -218,7 +213,6 @@
         dial4.max = +40;
         dial4.val.valueq = 0;
         dial4.init();
-
         dial4.on("*", function(dialData){
         MidEqR.gain.value = dialData.value;
         if(MidEqR.gain.value > 15){
@@ -230,7 +224,6 @@
         dial5.max = +40;
         dial5.val.value = 0;
         dial5.init();
-
         dial5.on("*", function(dialData){
         LowEqL.gain.value = dialData.value;
         if(LowEqL.gain.value > 15){
@@ -242,21 +235,11 @@
         dial6.max = +40;
         dial6.val.value = 0;
         dial6.init();
-
         dial6.on("*", function(dialData){
         LowEqR.gain.value = dialData.value;
         if(LowEqR.gain.value > 15){
             LowEqR.gain.value = 15;
         }
-        });
-
-        filter1.min = 0;
-        filter1.max = 2000;
-        filter1.val.value = 1000; 
-        filter1.init();
-        filter1.on("*", function(dialData){
-            filterL1.frequency.value = dialData.value - 1000;
-            filterL2.frequency.value = dialData.value;
         });
 
         reverb1.min = 0;
@@ -267,29 +250,28 @@
             reverbL.wet.value = dialData.value;
         });
 
-        reverbTest.min = 0;
-        reverbTest.max = 0.5;
-        reverbTest.val.value = 0;
-        reverbTest.init();
-        reverbTest.on("*", function(dialData){
-            reverbtest.wet.value = dialData.value;
+        reverb2.min = 0;
+        reverb2.max = 0.5;
+        reverb2.val.value = 0;
+        reverb2.init();
+        reverb2.on("*", function(dialData){
+            reverbR.wet.value = dialData.value;
+        });
+
+        filter1.min = 0;
+        filter1.max = 2000;
+        filter1.val.value = 0; 
+        filter1.init();
+        filter1.on("*", function(dialData){
+            filterL1.frequency.value = dialData.value;
         });
 
         filter2.min = 0;
         filter2.max = 2000;
-        filter2.val.value = 1000; 
+        filter2.val.value = 0; 
         filter2.init();
         filter2.on("*", function(dialData){
-            filterR1.frequency.value = dialData.value - 1000;
-            filterR2.frequency.value = dialData.value;
-        });
-
-        distortion2.min = 0;
-        distortion2.max = 0.5;
-        distortion2.val.value = 0; 
-        distortion2.init();
-        distortion2.on("*", function(dialData){
-        distortionR.wet.value = dialData.value;
+            filterR1.frequency.value = dialData.value;
         });
 
         slider1.on("*", volumeActions);
