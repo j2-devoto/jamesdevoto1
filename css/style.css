@@ -3,13 +3,6 @@ body, html {
     height: 100%;
 }
 
-
-div#description { 
-    background-color: rgb(200,200,200);
-    height: 10%; 
-    width: 100%;  
-}
-
 div#menuBar { 
   height: 8%;
   width: 100%;
@@ -50,11 +43,26 @@ div#controlsArea { /* synth parameter sliders - top 40% */
 }
 
 div#leftDeck {
-  width: 33.3%; /* two panels spread over the full width */
+  width: 30.6%; /* two panels spread over the full width */
   height: 100%;
   float: left;
   text-align: center;
   background: #eeeeee;
+}
+
+div#lPitch {
+  width: 2.75%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+canvas[nx="leftPitch"]{
+  height: 100%;
+  width: 100%;
+  position:relative;
+  position:absolute;bottom:0;
+  margin-bottom: 100%;
 }
 
 canvas[nx="vinyl"]{
@@ -71,14 +79,22 @@ div#mixer {
  } 
 
 canvas[nx="dial"]{
-            width: 50%;
-            height: 30%;
-            float: left;
+  width: 50%;
+  height: 30%;
+  float: left;
 }   
 
 
 div#rightDeck {
-  width: 33.3%; /* two panels spread over the full width */
+  width: 30.6%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+div#rPitch {
+  width: 2.75%;
   height: 100%;
   float: left;
   text-align: center;
@@ -103,21 +119,17 @@ canvas[id="leftStartTog"]{
   height: 100%;
   width:  20%;
   float:left;
-
 }
 
 canvas[id="leftDec"]{
   height: 100%;
   width:  20%;
-
-
 }
 
 canvas[id="leftInc"]{
   height: 100%;
   width:  20%;
   float:right;
-
 }
 
 div#crossfaderDiv {
@@ -170,12 +182,19 @@ div#leftFX {
   background: #eeeeee; 
  } 
 
-canvas[id="distortion1"]{
+canvas[id="reverb1"]{
             width: 50%;
             height: 100%;
             float: left;
         
 }    
+
+canvas[id="reverbTest"]{
+            width: 50%;
+            height: 100%;
+            float: left;
+        
+} 
 
 div#centerFX {
   width: 33.3%; /* two panels spread over the full width */
@@ -191,7 +210,14 @@ canvas[id="filter1"]{
           margin-left: 6%
 }  
 
-canvas[nx = "slider"]{
+canvas[id = "slider1"]{
+          width: 10%;
+          height: 100%;
+          float: left;
+          margin-left: 6%
+}
+
+canvas[id = "slider2"]{
           width: 10%;
           height: 100%;
           float: left;
