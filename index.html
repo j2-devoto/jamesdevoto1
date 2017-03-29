@@ -10,8 +10,6 @@
     
 </head>
 <body>
-    <div id="description">Selecting a track from the drop down menu will drop it onto the decks
-    </div>
  
 
     <div id="menuBar">
@@ -31,9 +29,15 @@
 
     <div id="controlsArea">
 
+        <div id="lPitch">
+            <canvas nx="slider" id="leftPitch"></canvas>
+        </div>
+
         <div id="leftDeck">
             <canvas nx="vinyl" id="leftVinyl"></canvas>
         </div>
+
+        
 
         <div id="mixer">
             <canvas nx="dial" height="25%" width="25%"></canvas>
@@ -48,6 +52,10 @@
             <canvas nx="vinyl" id="rightVinyl"></canvas>
         </div>
 
+        <div id="rPitch">
+            <canvas nx="slider" id="rightPitch"></canvas>
+        </div>
+
     </div>
 
     <div id="crossfaderAndButtons">
@@ -59,7 +67,7 @@
         </div>
 
         <div id="crossfaderDiv">
-            <input id="crossfader" type="range" min = "0" max = "100" style- "width:70%" ></input> 
+            <input id="crossfader" type="range" min = "0" max = "100" style- width:"70%" height:"100%" ></input> 
         </div>
 
         <div id="rightStart">
@@ -72,7 +80,8 @@
     <div id="FXBar">
 
         <div id="leftFX">
-            <canvas nx ="dial" id ="distortion1" label = "distortion" height="50%" width="50%"></canvas>
+            <canvas nx ="dial" id ="reverb1" label = "reverb" height="50%" width="50%"></canvas>
+            <canvas nx ="dial" id ="reverbTest" label = "reverb" height="50%" width="50%"></canvas>
         </div>
 
         <div id="centerFX">
@@ -89,9 +98,6 @@
     </div>
 
   <script>
-
-
-
     // load and configure the ToneJS sample player 
     var leftplayer = new Tone.Player("Songs/Song1Logic.mp3");
 
@@ -105,14 +111,18 @@
     MidEqL.q = 10;
     var HighEqL2 = new Tone.Filter(7000, "peaking");
     MidEqL.q = 10;
-    var filterL = new Tone.Filter(200, "highpass");
-    var distortionL = new Tone.Distortion(0.8);
-    distortionL.wet.value = 0.0;
+    var filterL1 = new Tone.Filter(200, "highpass");
+    filterL1.frequency.value = 0;
+    var filterL2 = new Tone.Filter(350, "lowpass");
+    filterL2.frequency.value = 1000;
+    var reverbtest = new Tone.Freeverb();
+    reverbtest.roomSize.value = 0.75;
+    reverbtest.dampening.value = 8000;
+    reverbtest.wet.value = 0.0;
     var Lgain = new Tone.Gain (1);
 
-    Lgain.connect(crossFade, 0, 0);
 
-    leftplayer.chain(LowEqL, MidEqL, HighEqL1, HighEqL2, filterL,distortionL, Lgain);
+    leftplayer.chain(LowEqL, MidEqL, HighEqL1, HighEqL2, filterL1, reverbtest, Lgain);
 
     Lgain.connect(crossFade, 0, 0);
 
@@ -125,12 +135,15 @@
     MidEqL.q = 10;
     var HighEqR2 = new Tone.Filter(7000, "peaking");
     MidEqL.q = 10;
-    var filterR = new Tone.Filter(200, "highpass");
+    var filterR1 = new Tone.Filter(200, "highpass");
+    filterR1.frequency.value = 0;
+    var filterR2 = new Tone.Filter(350, "lowpass");
+    filterR2.frequency.value = 1000;
     var distortionR = new Tone.Distortion(0.8);
     distortionR.wet.value = 0.0;
     var Rgain = new Tone.Gain (1);
 
-    rightplayer.chain(LowEqR, MidEqR, HighEqR1, HighEqR2, filterR,distortionR, Rgain);
+    rightplayer.chain(LowEqR, MidEqR, HighEqR1, HighEqR2, filterR1,distortionR, Rgain);
 
     Rgain.connect(crossFade, 0, 1);
 
@@ -145,7 +158,7 @@
         dial4.colors.fill = "#222222";
         dial5.colors.fill = "#222222";
         dial6.colors.fill = "#222222";
-        distortion1.colors.fill = "#222222";
+        reverb1.colors.fill ="#2222222";
         distortion2.colors.fill = "#222222";
         filter1.colors.fill = "#222222";
         filter2.colors.fill = "#222222";
@@ -239,26 +252,36 @@
 
         filter1.min = 0;
         filter1.max = 2000;
-        filter1.val.value = 0; 
+        filter1.val.value = 1000; 
         filter1.init();
         filter1.on("*", function(dialData){
-            filterL.frequency.value = dialData.value;
+            filterL1.frequency.value = dialData.value - 1000;
+            filterL2.frequency.value = dialData.value;
         });
 
-        distortion1.min = 0;
-        distortion1.max = 0.5;
-        distortion1.val.value = 0.0; 
-        distortion1.init();
-        distortion1.on("*", function(dialData){
-            distortionL.wet.value = dialData.value;
+        reverb1.min = 0;
+        reverb1.max = 0.5;
+        reverb1.val.value = 0;
+        reverb1.init();
+        reverb1.on("*", function(dialData){
+            reverbL.wet.value = dialData.value;
+        });
+
+        reverbTest.min = 0;
+        reverbTest.max = 0.5;
+        reverbTest.val.value = 0;
+        reverbTest.init();
+        reverbTest.on("*", function(dialData){
+            reverbtest.wet.value = dialData.value;
         });
 
         filter2.min = 0;
         filter2.max = 2000;
-        filter2.val.value = 0; 
+        filter2.val.value = 1000; 
         filter2.init();
         filter2.on("*", function(dialData){
-        filterR.frequency.value = dialData.value;
+            filterR1.frequency.value = dialData.value - 1000;
+            filterR2.frequency.value = dialData.value;
         });
 
         distortion2.min = 0;
@@ -281,6 +304,19 @@
         slider2.val.value = 0;
         slider2.init();   
 
+        leftPitch.on("*", lPitchActions);
+        leftPitch.min = 0;
+        leftPitch.max = 1;
+        leftPitch.val.value = 0.5;
+        leftPitch.init();
+
+        rightPitch.on("*", rPitchActions);
+        rightPitch.min = 0;
+        rightPitch.max = 1;
+        rightPitch.val.value = 0.5;
+        rightPitch.init();
+
+
         // set default state of controls for left vinyl
         leftVinyl.defaultspeed = 0;
 
@@ -301,7 +337,6 @@
 
         // add event listener for events on the left speed inc button
         rightDec.on("*", rightDecActions);
-
 
         // set default state of controls for Rvinyl
         rightVinyl.defaultspeed = 0;
@@ -325,6 +360,14 @@
         rightplayer.volume.value = slider2.val.value;
     }
 
+    function lPitchActions(){
+        leftVinyl.defaultspeed = leftPitch.val.value/10;
+           }
+
+    function rPitchActions(){
+        rightVinyl.defaultspeed = rightPitch.val.value/10;
+    }
+
     function select1Actions(eventData){
 
         leftplayer.stop();
@@ -343,7 +386,6 @@
             
         }
     }
-
 
     function select2Actions(eventData){
 
@@ -382,6 +424,24 @@
         }
     }
 
+            // callback for actions on the vinyl control
+    var RvinylActions = function(event) {
+
+        // are we pushing forward?
+        if (rightVinyl.val.speed > 0) {
+            rightplayer.reverse = false;
+            rightplayer.playbackRate = rightVinyl.val.speed;
+        }
+
+        // maybe pushing backwards?
+        else if (rightVinyl.val.speed < 0 ) {
+            rightplayer.reverse = true;
+
+            // playback rate must be a positive number
+            rightplayer.playbackRate = (-1 * rightVinyl.val.speed); 
+        }
+    }
+
     //make the left vinyl un-interactable
 
     leftVinyl.click = function(){}; 
@@ -394,13 +454,9 @@
 
     // callback for actions on the toggle button
     var LtoggleActions = function(event) {
-        
-        // set the turntable to run or stop
-        // depending on the toggle button value
-                console.log(event.value);
 
         if (event.value == 1 ){
-            leftVinyl.defaultspeed = 0.05;
+            leftVinyl.defaultspeed = leftPitch.val.value/10;
         }
         else {
             leftVinyl.defaultspeed = 0;
@@ -412,7 +468,26 @@
         }
     }
 
-    // callback for actions on the increment button
+
+    // callback for actions on the toggle button
+    var RtoggleActions = function(event) {
+        
+        // set the turntable to run or stop
+        // depending on the toggle button value
+        if (event.value == 1 ){
+            rightVinyl.defaultspeed = rightPitch.val.value/10;
+        }
+        else {
+            rightVinyl.defaultspeed = 0;
+        }
+
+        // if the sample player isn't running yet
+        if (rightplayer.state == "stopped") {
+            rightplayer.start();
+        }
+    }
+
+        // callback for actions on the increment button
     var leftIncActions = function(event) {
 
         // set the turntable to run or stop
@@ -464,70 +539,16 @@
         }
     }
 
-        // callback for actions on the vinyl control
-    var RvinylActions = function(event) {
 
-        // are we pushing forward?
-        if (rightVinyl.val.speed > 0) {
-            rightplayer.reverse = false;
-            rightplayer.playbackRate = rightVinyl.val.speed;
-        }
-
-        // maybe pushing backwards?
-        else if (rightVinyl.val.speed < 0 ) {
-            rightplayer.reverse = true;
-
-            // playback rate must be a positive number
-            rightplayer.playbackRate = (-1 * rightVinyl.val.speed); 
-        }
-    }
-
-    // callback for actions on the toggle button
-    var RtoggleActions = function(event) {
-        
-        // set the turntable to run or stop
-        // depending on the toggle button value
-        if (event.value == 1 ){
-            rightVinyl.defaultspeed = 0.05;
-        }
-        else {
-            rightVinyl.defaultspeed = 0;
-        }
-
-        // if the sample player isn't running yet
-        if (rightplayer.state == "stopped") {
-            rightplayer.start();
-        }
-    }
 
     var crossfader = document.getElementById("crossfader");
 
     crossfader.addEventListener("mousemove", crossfaderActions);
+    crossfader.addEventListener("touchmove", crossfaderActions);
 
     function crossfaderActions(event) {
         crossFade.fade.value = crossfader.value/100.0; 
     }
-
-    
-    // ios web audio context is muted by default
-    // workaround is to make a touchstart trigger an audio source
-    window.addEventListener('touchstart',
-      function() { 
-        // create empty buffer
-        var buffer = Tone.context.createBuffer(1, 1, 22050);
-        var source = Tone.context.createBufferSource();
-        source.buffer = buffer; 
-      
-      // connect to output (your speakers) 
-      source.connect(Tone.context.destination); 
-      
-      // play the file
-      source.noteOn(0); 
-      source.start();
-    }, false);
- 
-
-
 
   </script>
   
