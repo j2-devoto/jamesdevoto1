@@ -37,7 +37,7 @@ div#rightMenu {
 }
 
 div#controlsArea { /* synth parameter sliders - top 40% */
-  height: 52%;
+  height: 45%;
   width: 100%;
   filter: alpha(opacity=90);    
   opacity: .9;
@@ -197,13 +197,6 @@ canvas[id="reverb1"]{
             float: left;
         
 }    
-
-canvas[id="reverbTest"]{
-            width: 50%;
-            height: 100%;
-            float: left;
-        
-} 
 
 div#centerFX {
   width: 33.3%; /* two panels spread over the full width */
