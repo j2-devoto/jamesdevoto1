@@ -11,23 +11,18 @@
 </head>
 <body>
 
-    
- 
-
-    <div id="menuBar">
-
-        <div id="leftMenu">
-          <canvas nx="select" id="select1" choices="track1,track2,track3,track4"></canvas>
-        </div>
-        <div id="centerMenu">
-          
-        </div>
-        <div id="rightMenu">
-          <canvas nx="select" id="select2" choices="track1, track2, track3, track4"></canvas>
-        </div>
+    <div id="background">
     </div>
 
-     
+    <div id="topOfPage">
+
+        <div id="topOfPageL">
+        </div>
+        <div id="topOfPageM">
+        </div>
+        <div id="topOfPageR">
+        </div>
+    </div>
 
     <div id="controlsArea">
 
@@ -38,8 +33,6 @@
         <div id="leftDeck">
             <canvas nx="vinyl" id="leftVinyl"></canvas>
         </div>
-
-        
 
         <div id="mixer">
             <canvas nx="dial" height="25%" width="25%"></canvas>
@@ -83,6 +76,7 @@
 
         <div id="leftFX">
             <canvas nx ="dial" id ="reverb1" label = "reverb" height="50%" width="50%"></canvas>
+            <canvas nx ="dial" id ="phaser1" label = "phaser" height="50%" width="50%"></canvas>
         </div>
 
         <div id="centerFX">
@@ -94,16 +88,33 @@
 
         <div id="rightFX">
             <canvas nx ="dial" id ="reverb2" label = "reverb" height="50%" width="50%"></canvas>
+            <canvas nx ="dial" id ="phaser2" label = "phaser" height="50%" width="50%"></canvas>
         </div>
 
     </div>
 
+     <div id="menuBar">
+
+        <div id="leftMenu">
+        </div>
+        <div id="centerMenu">
+        </div>
+        <div id="rightMenu">
+        </div>
+    </div>
+
+    <div id="bigButtons">
+        <button id="button1" onclick = "loadLogic()">Logic-Young Sinatra Instrumental-90BPM</button> 
+        <button id="button2" onclick = "loadJoey()">Joey Baddass-Waves Instrumental-90BPM</button>
+        <button id="button1" onclick = "loadLogic()">Logic-Young Sinatra Instrumental-90BPM</button> 
+        <button id="button2" onclick = "loadJoey()">Joey Baddass-Waves Instrumental-90BPM</button>
+    </div>
+
   <script>
+
     // load and configure the ToneJS sample player 
     var leftplayer = new Tone.Player("Songs/Song1Logic.mp3");
-
     var crossFade = new Tone.CrossFade(0.5);
-    
     var LowEqL = new Tone.Filter(100, "peaking");
     LowEqL.q = 10;
     var MidEqL = new Tone.Filter(500, "peaking");
@@ -118,10 +129,11 @@
     reverbL.roomSize.value = 0.75;
     reverbL.dampening.value = 8000;
     reverbL.wet.value = 0.0;
+    var phaserL = new Tone.Phaser (1, 3, 600);
+    phaserL.wet.value = 0.0;
     var Lgain = new Tone.Gain (1);
 
-
-    leftplayer.chain(LowEqL, MidEqL, HighEqL1, HighEqL2, filterL1, reverbL, Lgain);
+    leftplayer.chain(LowEqL, MidEqL, HighEqL1, HighEqL2, filterL1, reverbL, phaserL, Lgain);
 
     Lgain.connect(crossFade, 0, 0);
 
@@ -140,9 +152,11 @@
     reverbR.roomSize.value = 0.75;
     reverbR.dampening.value = 8000;
     reverbR.wet.value = 0.0;
+    var phaserR = new Tone.Phaser (1, 3, 600);
+    phaserR.wet.value = 0.0;
     var Rgain = new Tone.Gain (1);
 
-    rightplayer.chain(LowEqR, MidEqR, HighEqR1, HighEqR2, filterR1,reverbR, Rgain);
+    rightplayer.chain(LowEqR, MidEqR, HighEqR1, HighEqR2, filterR1, phaserR, reverbR, Rgain);
 
     Rgain.connect(crossFade, 0, 1);
 
@@ -159,8 +173,12 @@
         dial6.colors.fill = "#222222";
         reverb1.colors.fill = "#222222";
         reverb2.colors.fill = "#222222";
+        phaser1.colors.fill = "#222222";
+        phaser2.colors.fill = "#222222";
         filter1.colors.fill = "#222222";
         filter2.colors.fill = "#222222";
+        leftPitch.colors.fill = "#3f4145";
+        rightPitch.colors.fill = "#3f4145";
 
         dial1.min = -40;
         dial1.max = +40;
@@ -248,6 +266,22 @@
             reverbL.wet.value = dialData.value;
         });
 
+        phaser1.min = 0;
+        phaser1.max = 1;
+        phaser1.val.value = 0;
+        phaser1.init();
+        phaser1.on("*", function(dialData){
+            phaserL.wet.value = dialData.value;
+        });
+
+        phaser2.min = 0;
+        phaser2.max = 1;
+        phaser2.val.value = 0;
+        phaser2.init();
+        phaser2.on("*", function(dialData){
+            phaserR.wet.value = dialData.value;
+        });
+
         reverb2.min = 0;
         reverb2.max = 0.5;
         reverb2.val.value = 0;
@@ -296,6 +330,10 @@
         rightPitch.val.value = 0.5;
         rightPitch.init();
 
+        leftVinyl.click = function(){
+            var bigButtons = document.getElementById("bigButtons");
+            bigButtons.style.display = "block";
+        }
 
         // set default state of controls for left vinyl
         leftVinyl.defaultspeed = 0;
@@ -325,13 +363,7 @@
         rightVinyl.on("*", RvinylActions);
 
         // and event listener for events on the Rtoggle button
-        rightStartTog.on("*", RtoggleActions);
-
-         // set event listener for events on the Lselect menu
-        select1.on("*", select1Actions);
-
-        // and event listener for events on the Rselect menu
-        select2.on("*", select2Actions);    
+        rightStartTog.on("*", RtoggleActions); 
         
     }
 
@@ -348,7 +380,7 @@
         rightVinyl.defaultspeed = rightPitch.val.value/10;
     }
 
-    function select1Actions(eventData){
+    function loadLogic(){
 
         leftplayer.stop();
 
@@ -357,34 +389,23 @@
                 leftplayer.loop = true;     
             }
 
-        if (select1.val.text == "track1") {
-            leftplayer.load("Songs/Song1Logic.mp3", restartPlayerL);
-            
-        }
-        else if (select1.val.text == "track2") {
-            leftplayer.load("Songs/Song2Joey.mp3", restartPlayerL);
-            
-        }
+        leftplayer.load("Songs/Song1Logic.mp3", restartPlayerL);
+        bigButtons.style.display = "none";
     }
 
-    function select2Actions(eventData){
+    function loadJoey(){
 
-        rightplayer.stop();
+        leftplayer.stop();
 
-        function restartPlayerR() {
-                rightplayer.start();
-                rightplayer.loop = true;     
+        function restartPlayerL() {
+                leftplayer.start();
+                leftplayer.loop = true;     
             }
 
-        if (select2.val.text == "track1") {
-            rightplayer.load("Songs/Song1Logic.mp3", restartPlayerR);
-            
-        }
-        else if (select2.val.text == "track2") {
-            rightplayer.load("Songs/Song2Joey.mp3", restartPlayerR);
-            
-        }
+        leftplayer.load("Songs/Song2Joey.mp3", restartPlayerL);
+        bigButtons.style.display = "none";
     }
+
 
     // callback for actions on the vinyl control
     var LvinylActions = function(event) {
