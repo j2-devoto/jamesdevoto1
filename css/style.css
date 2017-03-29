@@ -4,7 +4,7 @@ body, html {
     margin: 0px;
 }
 
-div#menuBar { 
+div#topOfPage { 
   height: 8%;
   width: 100%;
 }
@@ -15,25 +15,25 @@ canvas[nx="select"]{
   float:left;
 }
 
-div#leftMenu {
+div#topOfPageL {
   width: 33.3%; 
   height: 100%;
   float: left;
+  background: #eeeeee;
 }  
 
-div#centerMenu {
+div#topOfPageM {
   width: 33.3%; 
   height: 100%;
   float: left;
   background: #eeeeee;
 }
 
-div#rightMenu {
+div#topOfPageR {
   width: 33.3%; /* two panels spread over the full width */
   height: 100%;
   float: left;
-  filter: alpha(opacity=90);  
-  opacity: .9;
+  background: #eeeeee;
 }
 
 div#controlsArea { /* synth parameter sliders - top 40% */
@@ -58,12 +58,10 @@ div#lPitch {
   background: #eeeeee;
 }
 
-canvas[nx="leftPitch"]{
-  height: 100%;
-  width: 100%;
-  position:relative;
-  position:absolute;bottom:0;
-  margin-bottom: 100%;
+canvas[id="leftPitchReset"]{
+  height: 10%;
+  width:  100%;
+  float:right;
 }
 
 canvas[nx="vinyl"]{
@@ -71,20 +69,19 @@ canvas[nx="vinyl"]{
   width:  70%;
 }
 
-div#mixer {
+div#mixer{
   width: 33.3%; /* two panels spread over the full width */
   height: 100%;
   float: left;
   text-align: center;
   background: #eeeeee; 
- } 
+} 
 
 canvas[nx="dial"]{
   width: 50%;
   height: 30%;
   float: left;
 }   
-
 
 div#rightDeck {
   width: 30.6%; /* two panels spread over the full width */
@@ -102,18 +99,23 @@ div#rPitch {
   background: #eeeeee;
 }
 
+canvas[id="rightPitchReset"]{
+  height: 10%;
+  width:  100%;
+  float:right;
+}
 
 div#crossfaderAndButtons { /* synth parameter sliders - top 40% */
   height: 15%;
   width: 100%;
 }
+
 div#leftStart {
   width: 33.3%; /* two panels spread over the full width */
   height: 100%;
   float: left;
   text-align: center;
   background: #eeeeee;
-
 }
 
 canvas[id="leftStartTog"]{
@@ -142,11 +144,11 @@ div#crossfaderDiv {
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-    width: 80%;
-    height: 20%;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
+  width: 80%;
+  height: 20%;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
 }
 
 div#rightStart {
@@ -160,24 +162,19 @@ canvas[id="rightStartTog"]{
   height: 100%;
   width:  20%;
   float:left;
-
 }
 
 canvas[id="rightDec"]{
   height: 100%;
   width:  20%;
   margin-left: 22%;
-
-
 }
 
 canvas[id="rightInc"]{
   height: 100%;
   width:  20%;
   float:right;
-
 }
-
 
 div#FXBar { /* synth parameter sliders - top 40% */
   height: 25%;
@@ -192,11 +189,16 @@ div#leftFX {
  } 
 
 canvas[id="reverb1"]{
-            width: 50%;
-            height: 100%;
-            float: left;
-        
+  width: 50%;
+  height: 100%;
+  float: left;    
 }    
+
+canvas[id="phaser1"]{
+  width: 50%;
+  height: 100%;
+  float: left;    
+}   
 
 div#centerFX {
   width: 33.3%; /* two panels spread over the full width */
@@ -206,31 +208,31 @@ div#centerFX {
 }
 
 canvas[id="filter1"]{
-          width: 25%;
-          height: 100%;
-          float: left;
-          margin-left: 6%
+  width: 25%;
+  height: 100%;
+  float: left;
+  margin-left: 6%
 }  
 
 canvas[id = "slider1"]{
-          width: 10%;
-          height: 100%;
-          float: left;
-          margin-left: 6%
+  width: 10%;
+  height: 100%;
+  float: left;
+  margin-left: 6%
 }
 
 canvas[id = "slider2"]{
-          width: 10%;
-          height: 100%;
-          float: left;
-          margin-left: 6%
+  width: 10%;
+  height: 100%;
+  float: left;
+  margin-left: 6%
 }
 
 canvas[id="filter2"]{
-          width: 25%;
-          height: 100%;
-          float: left;
-          margin-left: 6%
+  width: 25%;
+  height: 100%;
+  float: left;
+  margin-left: 6%
 }  
 
 div#rightFX {
@@ -241,10 +243,31 @@ div#rightFX {
 }
 
 canvas[id="reverb2"]{
-            width: 50%;
-            height: 100%;
-            float: left;     
-}    
+  width: 50%;
+  height: 100%;
+  float: left;     
+}  
 
+canvas[id="phaser2"]{
+  width: 50%;
+  height: 100%;
+  float: left;     
+}     
 
+button{
+  font-size: 0.965em;
+}
 
+div#bigButtons{
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: none;
+}
+
+div#background{
+  width: 100%;
+  height: 100%;
+  display:none;
+  background-color: rgba(255, 255, 255, 0.5);
+}
