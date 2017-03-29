@@ -64,6 +64,7 @@ div#lPitch {
   height: 100%;
   float: left;
   background: #eeeeee;
+  margin-left: 2%
 }
 
 canvas[id="leftPitchReset"]{
