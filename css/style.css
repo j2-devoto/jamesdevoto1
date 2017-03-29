@@ -5,7 +5,283 @@ body, html {
 }
 
 div#topOfPage { 
+  heibody, html {
+    width: 100%;
+    height: 100%;
+    margin: 2%;
+    margin-right: 2%;
+}
+
+div#topOfPage { 
   height: 8%;
+  width: 96%;
+}
+
+canvas[nx="select"]{
+  height: 100%;
+  width:  100%;
+  float:left;
+}
+
+div#topOfPageL {
+  width: 33.3%; 
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}  
+
+div#topOfPageM {
+  width: 33.3%; 
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+div#topOfPageR {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+div#controlsArea { /* synth parameter sliders - top 40% */
+  height: 45%;
+  width: 100%;
+  filter: alpha(opacity=90);    
+  opacity: .9;
+}
+
+div#leftDeck {
+  width: 28.6%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+div#lPitch {
+  width: 2.75%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+canvas[id="leftPitchReset"]{
+  height: 10%;
+  width:  100%;
+  float:right;
+}
+
+canvas[nx="vinyl"]{
+  height: 100%;
+  width:  70%;
+}
+
+div#mixer{
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee; 
+} 
+
+canvas[nx="dial"]{
+  width: 50%;
+  height: 30%;
+  float: left;
+}   
+
+div#rightDeck {
+  width: 28.6%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+div#rPitch {
+  width: 2.75%;
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+canvas[id="rightPitchReset"]{
+  height: 10%;
+  width:  100%;
+  float:right;
+}
+
+div#crossfaderAndButtons { /* synth parameter sliders - top 40% */
+  height: 15%;
+  width: 96%;
+}
+
+div#leftStart {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+canvas[id="leftStartTog"]{
+  height: 100%;
+  width:  20%;
+  float:left;
+}
+
+canvas[id="leftDec"]{
+  height: 100%;
+  width:  20%;
+}
+
+canvas[id="leftInc"]{
+  height: 100%;
+  width:  20%;
+  float:right;
+}
+
+div#crossfaderDiv {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  text-align: center;
+  background: #eeeeee;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 80%;
+  height: 20%;
+  background: #ddd;
+  border: none;
+  border-radius: 3px;
+}
+
+div#rightStart {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+canvas[id="rightStartTog"]{
+  height: 100%;
+  width:  20%;
+  float:left;
+}
+
+canvas[id="rightDec"]{
+  height: 100%;
+  width:  20%;
+  margin-left: 22%;
+}
+
+canvas[id="rightInc"]{
+  height: 100%;
+  width:  20%;
+  float:right;
+}
+
+div#FXBar { /* synth parameter sliders - top 40% */
+  height: 25%;
+  width: 96%;
+}
+
+div#leftFX {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee; 
+ } 
+
+canvas[id="reverb1"]{
+  width: 50%;
+  height: 100%;
+  float: left;    
+}    
+
+canvas[id="phaser1"]{
+  width: 50%;
+  height: 100%;
+  float: left;    
+}   
+
+div#centerFX {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee;
+}
+
+canvas[id="filter1"]{
+  width: 25%;
+  height: 100%;
+  float: left;
+  margin-left: 6%
+}  
+
+canvas[id = "slider1"]{
+  width: 10%;
+  height: 100%;
+  float: left;
+  margin-left: 6%
+}
+
+canvas[id = "slider2"]{
+  width: 10%;
+  height: 100%;
+  float: left;
+  margin-left: 6%
+}
+
+canvas[id="filter2"]{
+  width: 25%;
+  height: 100%;
+  float: left;
+  margin-left: 6%
+}  
+
+div#rightFX {
+  width: 33.3%; /* two panels spread over the full width */
+  height: 100%;
+  float: left;
+  background: #eeeeee; 
+}
+
+canvas[id="reverb2"]{
+  width: 50%;
+  height: 100%;
+  float: left;     
+}  
+
+canvas[id="phaser2"]{
+  width: 50%;
+  height: 100%;
+  float: left;     
+}     
+
+button{
+  font-size: 0.965em;
+}
+
+div#bigButtons{
+  margin-left: 4%;
+  margin-top: 4%;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  display: none;
+}
+
+div#background{
+  width: 100%;
+  height: 100%;
+  display:none;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+ght: 8%;
   width: 100%;
 }
 
