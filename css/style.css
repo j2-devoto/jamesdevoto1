@@ -1,6 +1,7 @@
 body, html {
     width: 100%;
     height: 100%;
+    margin: 0px;
 }
 
 div#menuBar { 
@@ -8,17 +9,17 @@ div#menuBar {
   width: 100%;
 }
 
-div#leftMenu {
-  width: 33.3%; 
-  height: 100%;
-  float: left;
-}  
-
 canvas[nx="select"]{
   height: 100%;
   width:  100%;
   float:left;
 }
+
+div#leftMenu {
+  width: 33.3%; 
+  height: 100%;
+  float: left;
+}  
 
 div#centerMenu {
   width: 33.3%; 
@@ -36,7 +37,7 @@ div#rightMenu {
 }
 
 div#controlsArea { /* synth parameter sliders - top 40% */
-  height: 30%;
+  height: 52%;
   width: 100%;
   filter: alpha(opacity=90);    
   opacity: .9;
@@ -67,7 +68,7 @@ canvas[nx="leftPitch"]{
 
 canvas[nx="vinyl"]{
   height: 100%;
-  width:  50%;
+  width:  70%;
 }
 
 div#mixer {
@@ -103,7 +104,7 @@ div#rPitch {
 
 
 div#crossfaderAndButtons { /* synth parameter sliders - top 40% */
-  height: 10%;
+  height: 15%;
   width: 100%;
 }
 div#leftStart {
@@ -140,6 +141,14 @@ div#crossfaderDiv {
   background: #eeeeee;
 }
 
+input[type=range]::-webkit-slider-runnable-track {
+    width: 80%;
+    height: 20%;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
 div#rightStart {
   width: 33.3%; /* two panels spread over the full width */
   height: 100%;
@@ -171,7 +180,7 @@ canvas[id="rightInc"]{
 
 
 div#FXBar { /* synth parameter sliders - top 40% */
-  height: 20%;
+  height: 25%;
   width: 100%;
 }
 
@@ -238,9 +247,11 @@ div#rightFX {
   background: #eeeeee; 
 }
 
-canvas[id="distortion2"]{
+canvas[id="reverb2"]{
             width: 50%;
             height: 100%;
             float: left;     
 }    
+
+
 
